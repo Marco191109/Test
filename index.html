@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test de Seguretat Informàtica</title>
+  <style>
+    :root {
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --text-color: #1e293b;
+      --border-color: #e2e8f0;
+      --primary-color: #2563eb;
+      --primary-hover: #1d4ed8;
+      --user-card-bg: #eff6ff;
+      --user-card-border: #bfdbfe;
+      --correct-bg: #dcfce7;
+      --correct-border: #22c55e;
+      --correct-text: #15803d;
+      --correct-option-bg: #bbf7d0;
+      --incorrect-bg: #fee2e2;
+      --incorrect-border: #ef4444;
+      --incorrect-text: #b91c1c;
+      --incorrect-option-bg: #fca5a5;
+      --hover-bg: #f1f5f9;
+    }
+
+    [data-theme="dark"] {
+      --bg-color: #0f172a;
+      --card-bg: #1e293b;
+      --text-color: #f8fafc;
+      --border-color: #334155;
+      --primary-color: #3b82f6;
+      --primary-hover: #60a5fa;
+      --user-card-bg: #1e293b;
+      --user-card-border: #3b82f6;
+      --correct-bg: #064e3b;
+      --correct-border: #10b981;
+      --correct-text: #a7f3d0;
+      --correct-option-bg: #047857;
+      --incorrect-bg: #7f1d1d;
+      --incorrect-border: #f87171;
+      --incorrect-text: #fecaca;
+      --incorrect-option-bg: #991b1b;
+      --hover-bg: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      padding: 20px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      transition: background-color 0.3s;
+    }
+
+    .header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    h1 {
+      color: var(--primary-color);
+      font-size: 1.8rem;
+    }
+
+    /* Botón de cambio de tema */
+    .theme-toggle-btn {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-color);
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background-color 0.2s, border-color 0.2s;
+    }
+
+    .theme-toggle-btn:hover {
+      background-color: var(--hover-bg);
+    }
+
+    /* Formulario de Datos Personales */
+    .user-info-card {
+      background-color: var(--user-card-bg);
+      border: 1px solid var(--user-card-border);
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 25px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-group label {
+      font-weight: 600;
+    }
+
+    .form-group input {
+      padding: 10px 14px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      font-size: 1rem;
+      outline: none;
+      background-color: var(--card-bg);
+      color: var(--text-color);
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus {
+      border-color: var(--primary-color);
+    }
+
+    /* Preguntas */
+    .question-card {
+      margin-bottom: 25px;
+      padding: 18px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+
+    .question-title {
+      font-weight: 600;
+      margin-bottom: 12px;
+      font-size: 1.05rem;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .option-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .option-label:hover {
+      background-color: var(--hover-bg);
+    }
+
+    .option-label input[type="radio"] {
+      accent-color: var(--primary-color);
+      width: 18px;
+      height: 18px;
+    }
+
+    /* Estilos de Corrección */
+    .question-card.correct {
+      background-color: var(--correct-bg);
+      border-color: var(--correct-border);
+    }
+
+    .question-card.incorrect {
+      background-color: var(--incorrect-bg);
+      border-color: var(--incorrect-border);
+    }
+
+    .option-label.correct-option {
+      background-color: var(--correct-option-bg);
+      border-color: var(--correct-border);
+      font-weight: 600;
+      color: var(--correct-text);
+    }
+
+    .option-label.incorrect-option {
+      background-color: var(--incorrect-option-bg);
+      border-color: var(--incorrect-border);
+      color: var(--incorrect-text);
+    }
+
+    /* Botón */
+    .btn-submit {
+      display: block;
+      width: 100%;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 14px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      margin-top: 10px;
+    }
+
+    .btn-submit:hover {
+      background-color: var(--primary-hover);
+    }
+
+    /* Resultados */
+    .result-box {
+      display: none;
+      margin-top: 25px;
+      padding: 20px;
+      background-color: var(--card-bg);
+      border: 2px solid var(--primary-color);
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .result-box h2 {
+      color: var(--primary-color);
+      margin-bottom: 10px;
+    }
+
+    .result-box p {
+      font-size: 1.1rem;
+    }
+
+    .error-msg {
+      color: var(--incorrect-border);
+      font-size: 0.9rem;
+      margin-top: 5px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header-bar">
+      <h1>Test de Seguretat Informàtica</h1>
+      <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()">
+        <span id="themeIcon">🌙</span> <span id="themeText">Mode Fosc</span>
+      </button>
+    </div>
+
+    <div class="user-info-card">
+      <div class="form-group">
+        <label for="fullName">Nom i Cognoms:</label>
+        <input type="text" id="fullName" placeholder="Ex: Maria Garcia Llopis" autocomplete="off">
+        <span class="error-msg" id="nameError">Per favor, introdueix el teu nom i cognoms abans de corregir.</span>
+      </div>
+    </div>
+
+    <form id="quizForm">
+      <div id="questionsContainer"></div>
+      <button type="button" class="btn-submit" onclick="gradeQuiz()">Corregir Test</button>
+    </form>
+
+    <div id="resultBox" class="result-box">
+      <h2 id="resultTitle">Resultats</h2>
+      <p id="resultText"></p>
+    </div>
+  </div>
+
+  <script>
+    const rawQuestionsData = [
+      {
+        question: "Per què cal protegir la informació en un sistema informàtic?",
+        options: [
+          "Només per complir amb la normativa legal vigent",
+          "Perquè és un actiu valuós que pot patir pèrdues, robatori o modificació no autoritzada",
+          "Únicament per evitar que els usuaris facen servir programari no autoritzat",
+          "Perquè els sistemes informàtics sempre són insegurs per naturalesa"
+        ],
+        answer: 1
+      },
+      {
+        question: "Quins són els tres pilars clàssics de la seguretat de la informació?",
+        options: [
+          "Autenticació, autorització i auditoria",
+          "Confidencialitat, integritat i disponibilitat",
+          "Prevenció, detecció i correcció",
+          "Física, lògica i activa"
+        ],
+        answer: 1
+      },
+      {
+        question: "La confidencialitat garanteix que:",
+        options: [
+          "La informació estiga sempre disponible quan es necessite",
+          "La informació no siga modificada per persones no autoritzades",
+          "Només les persones autoritzades puguen accedir a la informació",
+          "Es puga demostrar qui ha enviat un missatge"
+        ],
+        answer: 2
+      },
+      {
+        question: "La integritat de la informació es refereix a:",
+        options: [
+          "Que la informació siga exacta, completa i no haja estat alterada de manera no autoritzada",
+          "Que la informació estiga xifrada en tot moment",
+          "Que la informació estiga disponible 24/7",
+          "Que la informació només siga accessible des de la xarxa interna"
+        ],
+        answer: 0
+      },
+      {
+        question: "La disponibilitat implica que:",
+        options: [
+          "La informació només estiga accessible en horari laboral",
+          "Els usuaris autoritzats puguen accedir a la informació i als recursos quan els calga",
+          "La informació estiga duplicada en tres servidors",
+          "La informació no es puga esborrar mai"
+        ],
+        answer: 1
+      },
+      {
+        question: "El principi de no repudi (no repudiació) significa que:",
+        options: [
+          "L'usuari no pot negar haver realitzat una acció o enviat un missatge",
+          "L'usuari pot rebutjar les condicions d'ús del sistema",
+          "El sistema no pot rebutjar cap petició d'accés",
+          "Cap usuari pot ser expulsat del sistema"
+        ],
+        answer: 0
+      },
+      {
+        question: "Quina diferència hi ha entre seguretat física i seguretat lògica?",
+        options: [
+          "La física protegeix el maquinari i les instal·lacions; la lògica protegeix les dades i el programari",
+          "La física protegeix les dades; la lògica protegeix els equips",
+          "Són sinònims i s'utilitzen indistintament",
+          "La física només s'aplica a servidors i la lògica a ordinadors personals"
+        ],
+        answer: 0
+      },
+      {
+        question: "La seguretat passiva es caracteritza per:",
+        options: [
+          "Actuar abans de produir-se l'incident, prevenint-lo",
+          "Detectar i corregir els danys un cop produïda l'amenaça",
+          "Xifrar totes les comunicacions de la xarxa",
+          "Analitzar les vulnerabilitats del sistema periòdicament"
+        ],
+        answer: 1
+      },
+      {
+        question: "La seguretat activa es caracteritza per:",
+        options: [
+          "Tenir com a objectiu evitar o prevenir les amenaces abans que es materialitzen",
+          "Actuar només després que s'haga produït un atac",
+          "Ser sempre més econòmica que la seguretat passiva",
+          "No requerir cap mena de manteniment"
+        ],
+        answer: 0
+      },
+      {
+        question: "Quins són els tres factors d'autenticació clàssics?",
+        options: [
+          "Usuari, contrasenya i correu electrònic",
+          "Una cosa que saps, una cosa que tens i una cosa que tu eres",
+          "Xifrat, signatura i hash",
+          "Confidencialitat, integritat i disponibilitat"
+        ],
+        answer: 1
+      },
+      {
+        question: "Un exemple de factor d'autenticació biomètric seria:",
+        options: [
+          "Una contrasenya",
+          "Un token USB",
+          "L'empremta dactilar o el reconeixement facial",
+          "Un certificat digital emmagatzemat al disc"
+        ],
+        answer: 2
+      },
+      {
+        question: "Què significa el model AAA en seguretat informàtica?",
+        options: [
+          "Accés, Alerta i Auditoria",
+          "Autenticació, Autorització i Auditoria (Accounting)",
+          "Antivirus, Antispam i Antimalware",
+          "Anàlisi, Avaluació i Acció"
+        ],
+        answer: 1
+      },
+      {
+        question: "La comunicació \"extrem a extrem\" (i2i / end-to-end) implica que:",
+        options: [
+          "Les dades viatgen xifrades entre els dos extrems i només ells les poden desxifrar",
+          "Les dades passen sense xifrar per tots els intermediaris",
+          "El servidor central desxifra sempre els missatges",
+          "Només s'aplica a xarxes locals"
+        ],
+        answer: 0
+      },
+      {
+        question: "Què és una vulnerabilitat?",
+        options: [
+          "Un programa maliciós que ataca el sistema",
+          "Una debilitat o error en el sistema que pot ser explotat per una amenaça",
+          "Un atac que ja s'ha produït",
+          "Una eina per protegir el sistema"
+        ],
+        answer: 1
+      },
+      {
+        question: "Què és un exploit?",
+        options: [
+          "Un tipus de contrasenya molt segura",
+          "Una tècnica, codi o eina que aprofita una vulnerabilitat per comprometre el sistema",
+          "Un mètode de xifrat de dades",
+          "Un protocol de comunicació segura"
+        ],
+        answer: 1
+      },
+      {
+        question: "Quin d'aquests és un tipus de malware?",
+        options: [
+          "Tallafocs (firewall)",
+          "Xifrat AES",
+          "Troià (trojan)",
+          "VPN"
+        ],
+        answer: 2
+      },
+      {
+        question: "Un atac de \"phishing\" consisteix principalment a:",
+        options: [
+          "Enviar moltes peticions per saturar un servidor",
+          "Enganyar l'usuari perquè revele informació confidencial fent-se passar per una entitat de confiança",
+          "Xifrar les dades de la víctima i demanar un rescat",
+          "Escanejar ports oberts d'una xarxa"
+        ],
+        answer: 1
+      },
+      {
+        question: "Quin és l'objectiu principal del Reglament General de Protecció de Dades (RGPD)?",
+        options: [
+          "Regular l'ús de programari lliure a les empreses",
+          "Protegir les persones físiques pel que fa al tractament de les seves dades personals",
+          "Establir les normes tècniques dels sistemes operatius",
+          "Regular únicament les transaccions comercials electròniques"
+        ],
+        answer: 1
+      },
+      {
+        question: "En el context de l'Administració electrònica, què cal garantir principalment?",
+        options: [
+          "Que tots els tràmits es facen presencialment",
+          "La identitat dels ciutadans i la integritat i confidencialitat de les seues dades en els tràmits telemàtics",
+          "Que els tràmits només es puguen fer amb contrasenya simple",
+          "Que no es guarde cap registre dels tràmits realitzats"
+        ],
+        answer: 1
+      },
+      {
+        question: "Quina afirmació sobre els tipus d'atacs és correcta?",
+        options: [
+          "Els atacs passius només modifiquen la informació sense llegir-la",
+          "Els atacs actius busquen modificar, interrompre o destruir recursos, mentre que els passius solen interceptar o escoltar informació sense alterar-la",
+          "Tots els atacs són sempre actius",
+          "Els atacs passius sempre deixen traces evidents al sistema"
+        ],
+        answer: 1
+      }
+    ];
+
+    let processedQuestions = [];
+
+    // Funció per a barrejar un array (Algoritme Fisher-Yates)
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    // Prepara les preguntes i opcions barrejades
+    function prepareQuestions() {
+      const shuffledQuestions = shuffleArray(rawQuestionsData);
+      
+      processedQuestions = shuffledQuestions.map((q) => {
+        const originalOptions = q.options.map((optText, index) => ({
+          text: optText,
+          isCorrect: index === q.answer
+        }));
+
+        const shuffledOpts = shuffleArray(originalOptions);
+        const correctIndex = shuffledOpts.findIndex(opt => opt.isCorrect);
+
+        return {
+          questionText: q.question,
+          options: shuffledOpts.map(opt => opt.text),
+          correctAnswer: correctIndex
+        };
+      });
+    }
+
+    function renderQuestions() {
+      const container = document.getElementById('questionsContainer');
+      container.innerHTML = '';
+      const optionLetters = ['a', 'b', 'c', 'd'];
+
+      processedQuestions.forEach((q, qIndex) => {
+        const card = document.createElement('div');
+        card.className = 'question-card';
+        card.id = `q-card-${qIndex}`;
+
+        const title = document.createElement('div');
+        title.className = 'question-title';
+        title.textContent = `${qIndex + 1}. ${q.questionText}`;
+        card.appendChild(title);
+
+        const optionsDiv = document.createElement('div');
+        optionsDiv.className = 'options';
+
+        q.options.forEach((optText, optIndex) => {
+          const label = document.createElement('label');
+          label.className = 'option-label';
+          label.id = `label-${qIndex}-${optIndex}`;
+
+          const radio = document.createElement('input');
+          radio.type = 'radio';
+          radio.name = `question-${qIndex}`;
+          radio.value = optIndex;
+
+          label.appendChild(radio);
+          label.appendChild(document.createTextNode(`${optionLetters[optIndex]}) ${optText}`));
+          optionsDiv.appendChild(label);
+        });
+
+        card.appendChild(optionsDiv);
+        container.appendChild(card);
+      });
+    }
+
+    function gradeQuiz() {
+      const fullNameInput = document.getElementById('fullName');
+      const nameError = document.getElementById('nameError');
+      const name = fullNameInput.value.trim();
+
+      if (!name) {
+        nameError.style.display = 'block';
+        fullNameInput.focus();
+        return;
+      } else {
+        nameError.style.display = 'none';
+      }
+
+      let score = 0;
+      const total = processedQuestions.length;
+
+      processedQuestions.forEach((q, qIndex) => {
+        const card = document.getElementById(`q-card-${qIndex}`);
+        const selectedRadio = document.querySelector(`input[name="question-${qIndex}"]:checked`);
+        
+        card.classList.remove('correct', 'incorrect');
+        q.options.forEach((_, optIndex) => {
+          const lbl = document.getElementById(`label-${qIndex}-${optIndex}`);
+          lbl.classList.remove('correct-option', 'incorrect-option');
+        });
+
+        const correctOptIndex = q.correctAnswer;
+        const correctLabel = document.getElementById(`label-${qIndex}-${correctOptIndex}`);
+
+        if (selectedRadio) {
+          const userAnsIndex = parseInt(selectedRadio.value, 10);
+          if (userAnsIndex === correctOptIndex) {
+            score++;
+            card.classList.add('correct');
+            correctLabel.classList.add('correct-option');
+          } else {
+            card.classList.add('incorrect');
+            const userLabel = document.getElementById(`label-${qIndex}-${userAnsIndex}`);
+            userLabel.classList.add('incorrect-option');
+            correctLabel.classList.add('correct-option');
+          }
+        } else {
+          card.classList.add('incorrect');
+          correctLabel.classList.add('correct-option');
+        }
+      });
+
+      const resultBox = document.getElementById('resultBox');
+      const resultTitle = document.getElementById('resultTitle');
+      const resultText = document.getElementById('resultText');
+
+      resultTitle.textContent = `Resultats de ${name}`;
+      resultText.innerHTML = `Puntuació obtinguda: <strong>${score} / ${total}</strong> (${((score / total) * 10).toFixed(2)} / 10)`;
+      resultBox.style.display = 'block';
+
+      resultBox.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    /* Control de Mode Fosc / Clar */
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateThemeButton(newTheme);
+    }
+
+    function updateThemeButton(theme) {
+      const themeIcon = document.getElementById('themeIcon');
+      const themeText = document.getElementById('themeText');
+      if (theme === 'dark') {
+        themeIcon.textContent = '☀️';
+        themeText.textContent = 'Mode Clar';
+      } else {
+        themeIcon.textContent = '🌙';
+        themeText.textContent = 'Mode Fosc';
+      }
+    }
+
+    function initTheme() {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      updateThemeButton(savedTheme);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      prepareQuestions();
+      renderQuestions();
+    });
+  </script>
+
+</body>
+</html>
